@@ -36,19 +36,23 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
     output_text = ""
     random_key = random.choice(chains.keys())
+
+#populate the first tuple and make sure it's not empty
     if chains[random_key] != []:
         random_word = random.choice(chains[random_key])
+        key_word_tuple = (random_key[0], random_key[1], random_word)
+        output_text = "%s %s %s" %( key_word_tuple[0], key_word_tuple[1], key_word_tuple[2])
 
-    while chains[random_key] != []:
-        key_string = "%s %s" %(random_key[0], random_key[1])
-        output_text += "%s %s " %(key_string, random_word)
+#until the tuple is empty, keep re-populating the three-word tuple
+    while True:
+        new_key = (key_word_tuple[1], key_word_tuple[2])
+        if chains[new_key] != []:
+            random_word = random.choice(chains[new_key])
+            key_word_tuple = (new_key[0], new_key[1], random_word)
+            output_text = "%s %s" %(output_text, random_word)
+        else:
+            break
 
-        random_key = random.choice(chains.keys())
-
-        if chains[random_key] != []:
-            random_word = random.choice(chains[random_key])
-
-    #print random_key, random_word
     return output_text
 
 
@@ -66,7 +70,5 @@ input_text = "hello there world hello there joel hello there katie"
 # Produce random text
 #random_text = make_text(chain_dict)
 
-#print random_text
-
-magic_dict_super_de_duper = make_chains("test.txt")
+magic_dict_super_de_duper = make_chains("green-eggs.txt")
 print make_text(magic_dict_super_de_duper)
