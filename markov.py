@@ -1,8 +1,20 @@
 import sys
-
+import random
 
 def make_chains(corpus):
     """Takes input text as string; returns dictionary of markov chains."""
+    
+    #clean  up the text
+    corpus_file = open(corpus).read()
+    clean_corpus = corpus_file.replace("\n", " ")
+
+    #create dictionary keys
+    corpus_list = clean_corpus.split(" ")
+    corpus_dict = {}
+    for i in range(len(corpus_list)-1):
+        key = (corpus_list[i], corpus_list[i+1])
+        corpus_dict[key] = None   
+        print key
 
     return {}
 
@@ -20,9 +32,12 @@ def make_text(chains):
 input_text = "Some text"
 
 # Get a Markov chain
-chain_dict = make_chains(input_text)
+#chain_dict = make_chains(input_text)
 
 # Produce random text
-random_text = make_text(chain_dict)
+#random_text = make_text(chain_dict)
 
-print random_text
+#print random_text
+
+
+make_chains("green-eggs.txt")
