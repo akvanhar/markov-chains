@@ -36,28 +36,29 @@ def make_text(chains):
     """Takes dictionary of markov chains; returns random text."""
     output_text = ""
     random_key = random.choice(chains.keys())
-    random_word = random.choice(chains[random_key])
-    key_string = "%s %s" %(random_key[0], random_key[1])
-    print key_string
-    output_text += "%s %s" %(key_string, random_word)
-    print output_text
+    if chains[random_key] != []:
+        random_word = random.choice(chains[random_key])
 
-    # while chains[random_key] != []:
-    #     #string_key = random_key[0] + " " + random_key[1] + random_word
+    while chains[random_key] != []:
+        key_string = "%s %s" %(random_key[0], random_key[1])
+        output_text += "%s %s " %(key_string, random_word)
 
-    #     random_key = random.choice(chains.keys())
-    #     random_word = random.choice(chains[random_key])
-    # print random_key, random_word
-    # return "Here's some random text."
+        random_key = random.choice(chains.keys())
+
+        if chains[random_key] != []:
+            random_word = random.choice(chains[random_key])
+
+    #print random_key, random_word
+    return output_text
 
 
-magic_dict_super_de_duper = make_chains("green-eggs.txt")
-make_text(magic_dict_super_de_duper)
+# magic_dict_super_de_duper = make_chains("green-eggs.txt")
+# print make_text(magic_dict_super_de_duper)
 # Change this to read input_text from a file, deciding which file should
 # be used by examining the `sys.argv` arguments (if neccessary, see the
 # Python docs for sys.argv)
 
-input_text = "Some text"
+input_text = "hello there world hello there joel hello there katie"
 
 # Get a Markov chain
 #chain_dict = make_chains(input_text)
@@ -67,3 +68,5 @@ input_text = "Some text"
 
 #print random_text
 
+magic_dict_super_de_duper = make_chains("test.txt")
+print make_text(magic_dict_super_de_duper)
