@@ -1,4 +1,4 @@
-import sys
+from sys import argv
 import random
 
 def make_chains(corpus):
@@ -12,9 +12,13 @@ def make_chains(corpus):
     corpus_list = clean_corpus.split(" ")
     corpus_dict = {}
 
-    #next two lines adds the last two items to a list and creates an empty value
+    #define the end case (2nd to last, last)
     last_key = (corpus_list[-2], corpus_list[-1])
-    corpus_dict[last_key] = []
+    corpus_dict[last_key] = [corpus_list[0]]
+
+    #define the wraparound case (end to beginning)
+    last_first_key = (corpus_list[-1], corpus_list[0])
+    corpus_dict[last_first_key] = [corpus_list[1]]
 
     for i in range(len(corpus_list)-2):
         key = (corpus_list[i], corpus_list[i+1])
@@ -25,7 +29,7 @@ def make_chains(corpus):
     
     #to print a test dictionary, uncomment the two lines bellow        
     # for key, value in corpus_dict.items():
-    #      print key, value   
+    #     print key, value   
 
     return corpus_dict
 
@@ -36,37 +40,18 @@ def make_text(chains):
     random_key = random.choice(chains.keys())
 
     #populate the first tuple and make sure it's not empty
-    if chains[random_key] != []:
-        random_word = random.choice(chains[random_key])
-        key_word_tuple = (random_key[0], random_key[1], random_word)
-        output_text = "%s %s %s" %( key_word_tuple[0], key_word_tuple[1], key_word_tuple[2])
-    else:
-        output_text = "%s %s" %(random_key[0], random_key[1])
-        return output_text
+    random_word = random.choice(chains[random_key])
+    key_word_tuple = (random_key[0], random_key[1], random_word)
+    output_text = "%s %s %s" %( key_word_tuple[0], key_word_tuple[1], key_word_tuple[2])
 
     #until the tuple is empty, keep re-populating the three-word tuple
-    while True:
+    while len(output_text) < 140:
         new_key = (key_word_tuple[1], key_word_tuple[2])
-        if chains[new_key] != []: #need to pick a better type of variable for "chains "
-            random_word = random.choice(chains[new_key])
-            key_word_tuple = (new_key[0], new_key[1], random_word)
-            output_text = "%s %s" %(output_text, random_word)
-        else:
-            break
+        random_word = random.choice(chains[new_key])
+        key_word_tuple = (new_key[0], new_key[1], random_word)
+        output_text = "%s %s" %(output_text, random_word)
 
     return output_text
 
-# Change this to read input_text from a file, deciding which file should
-# be used by examining the `sys.argv` arguments (if neccessary, see the
-# Python docs for sys.argv)
-
-input_text = "hello there world hello there joel hello there katie"
-
-# Get a Markov chain
-#chain_dict = make_chains(input_text)
-
-# Produce random text
-#random_text = make_text(chain_dict)
-
-magic_dict_super_de_duper = make_chains("green-eggs.txt")
+magic_dict_super_de_duper = make_chains(argv[1])
 print make_text(magic_dict_super_de_duper)
