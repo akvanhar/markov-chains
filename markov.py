@@ -42,7 +42,7 @@ def make_text(chains):
     #populate the first tuple and make sure it's not empty
     random_word = random.choice(chains[random_key])
     key_word_tuple = (random_key[0], random_key[1], random_word)
-    output_text = "%s %s %s" %( key_word_tuple[0], key_word_tuple[1], key_word_tuple[2])
+    output_text = "%s %s %s" %( key_word_tuple[0].title(), key_word_tuple[1], key_word_tuple[2])
 
     #until the tuple is empty, keep re-populating the three-word tuple
     while len(output_text) < 140:
@@ -50,6 +50,12 @@ def make_text(chains):
         random_word = random.choice(chains[new_key])
         key_word_tuple = (new_key[0], new_key[1], random_word)
         output_text = "%s %s" %(output_text, random_word)
+
+    # last_char = output_text[-1]  #don't know why this either works or loops forever.
+    # while last_char.isalpha():    #fix later. :(
+    #     output_text = output_text[:-1]
+    # else:
+    #     return output_text
 
     return output_text
 
