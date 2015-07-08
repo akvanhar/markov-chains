@@ -11,22 +11,17 @@ def make_chains(corpus):
     #create dictionary keys
     corpus_list = clean_corpus.split(" ")
     corpus_dict = {}
-    #tuple_list = []
+
     #next two lines adds the last two items to a list and creates an empty value
     last_key = (corpus_list[-2], corpus_list[-1])
     corpus_dict[last_key] = []
 
     for i in range(len(corpus_list)-2):
         key = (corpus_list[i], corpus_list[i+1])
-        if key not in corpus_dict:# and corpus_list[i+1] in corpus_list:
+        if key not in corpus_dict:
             corpus_dict[key] = [corpus_list[i+2]]
-        else:# corpus_list[i+1]:# and corpus_list[i+1] in corpus_list:
+        else:
             corpus_dict[key].append(corpus_list[i+2])
-    
-    #append values into dictionary keys
-    # for x in range(len(corpus_list) -2):
-    #     list_tuple = (corpus_list[x], corpus_list[x+1])
-    #     corpus_dict[list_tuple].append(corpus_list[x+2])
     
     #to print a test dictionary, uncomment the two lines bellow        
     # for key, value in corpus_dict.items():
@@ -73,5 +68,5 @@ input_text = "hello there world hello there joel hello there katie"
 # Produce random text
 #random_text = make_text(chain_dict)
 
-magic_dict_super_de_duper = make_chains("test.txt")
+magic_dict_super_de_duper = make_chains("green-eggs.txt")
 print make_text(magic_dict_super_de_duper)
