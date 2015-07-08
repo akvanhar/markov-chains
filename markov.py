@@ -1,15 +1,23 @@
 from sys import argv
 import random
 
-def make_chains(corpus):
-    """Takes input text as string; returns dictionary of markov chains."""
-    
-    #clean  up the text
-    corpus_file = open(corpus).read().rstrip()
+def make_list(filename):
+    """Opens a file, strips end-of-line whitespace, and splits into a list on spaces."""
+    #open the file as a string and strip whitespace off the end.
+    corpus_file = open(filename).read().rstrip()
+    #remove end-of-line characters
     clean_corpus = corpus_file.replace("\n", " ")
     
-    #create dictionary keys
+    #create a list
     corpus_list = clean_corpus.split(" ")
+
+    return corpus_list
+
+
+
+def make_chains(corpus_list):
+    """Takes input text as a list; returns dictionary of markov chains."""
+    
     corpus_dict = {}
 
     #define the end case (2nd to last, last)
@@ -51,13 +59,27 @@ def make_text(chains):
         key_word_tuple = (new_key[0], new_key[1], random_word)
         output_text = "%s %s" %(output_text, random_word)
 
-    # last_char = output_text[-1]  #don't know why this either works or loops forever.
-    # while last_char.isalpha():    #fix later. :(
-    #     output_text = output_text[:-1]
-    # else:
-    #     return output_text
+
 
     return output_text
 
-magic_dict_super_de_duper = make_chains(argv[1])
-print make_text(magic_dict_super_de_duper)
+def end_at_punct(markov_text):
+    output_text = markov_text
+
+    output_text = output_text.rstrip('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ,')
+    print
+    return output_text
+
+input_list_one = make_list("test.txt")
+input_list_two = make_list("green-eggs.txt")
+combined_list = []
+
+combined_list.extend(input_list_two)
+combined_list.extend(input_list_one)
+
+combined_dict = make_chains(combined_list)
+print combined_dict
+
+final_string = make_text(combined_dict)
+
+print end_at_punct(final_string)
